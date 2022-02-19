@@ -1,12 +1,14 @@
 
 import React from 'react'
-import styled from 'styled-components'
 import SearchBox from '../components/navbar/SearchBox/searchBox';
 import { category } from '../data';
 import { useState } from 'react';
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@material-ui/icons';
 import BestTag from '../components/BestTag';
 import { Newsletter } from '../components/NewsLetter';
+import {lightTheme, darkTheme, GlobalStyles} from '../themes'
+import styled, { ThemeProvider } from "styled-components";
+
 
 const Container = styled.div`
 margin-left: 20px;
@@ -27,6 +29,9 @@ padding-left: 400px;
 
 const Logo = styled.div`
 flex: 1;
+`;
+const StyledApp = styled.div`
+  color: ${(props) => props.theme.fontColor};
 `;
 const Wraptwo = styled.div`
 
@@ -133,7 +138,16 @@ const Category = () => {
         }
    };
 
+   const [theme, setTheme] = useState("light");
+
+  const themeToggler = () => {
+    theme === "light" ? setTheme("dark") : setTheme("light");
+  };
+
   return (
+    <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+      <GlobalStyles />
+      <StyledApp >
     <Container>
       <Wrapone>
         <Logo >
@@ -151,6 +165,9 @@ const Category = () => {
         </Logo>
 
        <Search ><SearchBox /></Search>
+      
+       <button onClick={() => themeToggler()}>Change Theme</button>
+      
        </Wrapone>
        <BestTag />
        <Title>Shop By Category</Title>
@@ -187,6 +204,8 @@ const Category = () => {
        </Wraptwo>
        <Newsletter />
     </Container>
+    </StyledApp>
+    </ThemeProvider>
   )
 }
 
